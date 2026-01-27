@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Seven Races of Aetherfall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-blue: #00d4ff;
+            --deep-void: #020617;
+            --mystic-glow: rgba(0, 212, 255, 0.3);
+        }
+
+        body {
+            background: radial-gradient(circle at center, #081221 0%, #020617 100%);
+            color: #e2e8f0;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+        }
+
+        .mystic-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .mystic-card:hover {
+            border-color: var(--magic-blue);
+            box-shadow: 0 0 20px var(--mystic-glow);
+            transform: translateY(-2px);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .mystic-card.active {
+            border-color: var(--magic-blue);
+            box-shadow: 0 0 30px var(--mystic-glow);
+            background: rgba(14, 165, 233, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(2, 6, 23, 0.5);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--magic-blue);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px var(--magic-blue);
+        }
+
+        .race-icon {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.5));
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.3;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .lore-section h4 {
+            color: #7dd3fc;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(125, 211, 252, 0.2);
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div id="particles"></div>
+
+    <div class="max-w-6xl mx-auto relative z-10">
+        <header class="text-center mb-10">
+            <h1 class="text-5xl md:text-7xl font-bold text-sky-400 glow-text mb-2 tracking-widest uppercase">Aetherfall</h1>
+            <p class="text-sky-200/60 uppercase tracking-widest text-xs font-bold">Ecological Paradoxes & Biological Wonders</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Race Selection List -->
+            <div class="lg:col-span-4 space-y-3 max-h-[75vh] overflow-y-auto pr-2 custom-scroll">
+                <button onclick="selectRace('aetherials')" id="btn-aetherials" class="mystic-card w-full p-4 rounded-xl flex items-center gap-5 group text-left">
+                    <span class="race-icon">🌌</span>
+                    <div>
+                        <h3 class="text-lg font-bold text-sky-100 group-hover:text-sky-400 transition-colors">Aetherials</h3>
+                        <p class="text-[10px] text-sky-300/50 uppercase tracking-wider">Logic Constructs</p>
+                    </div>
+                </button>
+
+                <button onclick="selectRace('dravakin')" id="btn-dravakin" class="mystic-card w-full p-4 rounded-xl flex items-center gap-5 group text-left">
+                    <span class="race-icon">🐲</span>
+                    <div>
+                        <h3 class="text-lg font-bold text-sky-100 group-hover:text-sky-400 transition-colors">Dravakin</h3>
+                        <p class="text-[10px] text-sky-300/50 uppercase tracking-wider">Battle-Encoded</p>
+                    </div>
+                </button>
+
+                <button onclick="selectRace('sylvae')" id="btn-sylvae" class="mystic-card w-full p-4 rounded-xl flex items-center gap-5 group text-left">
+                    <span class="race-icon">🦋</span>
+                    <div>
+                        <h3 class="text-lg font-bold text-sky-100 group-hover:text-sky-400 transition-colors">Sylvae</h3>
+                        <p class="text-[10px] text-sky-300/50 uppercase tracking-wider">Planetary Nodes</p>
+                    </div>
+                </button>
+
+                <button onclick="selectRace('noctyrr')" id="btn-noctyrr" class="mystic-card w-full p-4 rounded-xl flex items-center gap-5 group text-left">
+                    <span class="race-icon">🌙</span>
+                    <div>
+                        <h3 class="text-lg font-bold text-sky-100 group-hover:text-sky-400 transition-colors">Noctyrr</h3>
+                        <p class="text-[10px] text-sky-300/50 uppercase tracking-wider">Intent Predators</p>
+                    </div>
+                </button>
+
+                <button onclick="selectRace('machyrix')" id="btn-machyrix" class="mystic-card w-full p-4 rounded-xl flex items-center gap-5 group text-left">
+                    <span class="race-icon">⚙️</span>
+                    <div>
+                        <h3 class="text-lg font-bold text-sky-100 group-hover:text-sky-400 transition-colors">Machyrix</h3>
+                        <p class="text-[10px] text-sky-300/50 uppercase tracking-wider">Modular Savants</p>
+                    </div>
+                </button>
+
+                <button onclick="selectRace('virell')" id="btn-virell" class="mystic-card w-full p-4 rounded-xl flex items-center gap-5 group text-left">
+                    <span class="race-icon">🌿</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-sky-100 group-hover:text-sky-400 transition-colors">Virell</h3>
+                        <p class="text-xs text-sky-300/50 uppercase tracking-wider">Symbiotic Pairs</p>
+                    </div>
+                </button>
+
+                <button onclick="selectRace('astryx')" id="btn-astryx" class="mystic-card w-full p-4 rounded-xl flex items-center gap-5 group text-left">
+                    <span class="race-icon">✨</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-sky-100 group-hover:text-sky-400 transition-colors">Astryx</h3>
+                        <p class="text-xs text-sky-300/50 uppercase tracking-wider">Temporal Observers</p>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Race Details Display -->
+            <div class="lg:col-span-8">
+                <div id="details-panel" class="mystic-card h-[75vh] p-1 rounded-2xl flex flex-col overflow-hidden">
+                    <div id="placeholder-content" class="h-full flex flex-col justify-center items-center text-center p-8">
+                        <div class="text-6xl mb-6 opacity-20">📜</div>
+                        <h2 class="text-2xl text-sky-300/40 uppercase tracking-widest">Select a lineage to reveal lore</h2>
+                    </div>
+                    
+                    <div id="race-content" class="hidden h-full flex flex-col">
+                        <!-- Header Sticky Area -->
+                        <div class="p-8 pb-4 text-center">
+                            <span id="display-icon" class="text-6xl mb-2 block"></span>
+                            <h2 id="display-name" class="text-4xl font-bold text-sky-400 glow-text mb-1 tracking-widest uppercase"></h2>
+                            <p id="display-subtitle" class="text-sky-300/60 text-xs font-bold uppercase tracking-widest mb-4"></p>
+                            <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-sky-500/50 to-transparent mx-auto"></div>
+                        </div>
+
+                        <!-- Scrollable Lore Content -->
+                        <div class="flex-1 overflow-y-auto p-8 pt-0 custom-scroll text-left">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div class="bg-sky-900/20 p-4 rounded-lg border border-sky-500/10">
+                                    <span class="text-[10px] text-sky-400 uppercase font-bold tracking-widest block mb-1">Innate Trait</span>
+                                    <p id="display-trait" class="text-sky-100 font-medium"></p>
+                                </div>
+                                <div class="bg-sky-900/20 p-4 rounded-lg border border-sky-500/10">
+                                    <span class="text-[10px] text-sky-400 uppercase font-bold tracking-widest block mb-1">Core Ability</span>
+                                    <p id="display-ability" class="text-sky-100 font-medium"></p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-8 lore-section">
+                                <div>
+                                    <h4>Existence & Biology</h4>
+                                    <p id="lore-bio" class="text-sky-100/70 leading-relaxed"></p>
+                                </div>
+                                <div>
+                                    <h4>Psychology</h4>
+                                    <p id="lore-psych" class="text-sky-100/70 leading-relaxed"></p>
+                                </div>
+                                <div>
+                                    <h4>Society & Governance</h4>
+                                    <p id="lore-soc" class="text-sky-100/70 leading-relaxed"></p>
+                                </div>
+                                <div>
+                                    <h4>Conflict Behavior</h4>
+                                    <p id="lore-conflict" class="text-sky-100/70 leading-relaxed"></p>
+                                </div>
+                                <div class="bg-red-500/5 p-6 rounded-xl border border-red-500/10">
+                                    <h4 style="color: #f87171; border-color: rgba(248, 113, 113, 0.2)">Human Threat (The Paradox)</h4>
+                                    <p id="lore-human" class="text-red-100/70 leading-relaxed italic"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const raceData = {
+            aetherials: {
+                name: "Aetherials",
+                subtitle: "Logic Constructs",
+                icon: "🌌",
+                trait: "Mana Convergence",
+                ability: "Reality Warp",
+                bio: "Aetherials are not fully physical. Their bodies are probability-stabilized energy constructs, held together by continuous logical coherence. Their “forms” persist only as long as their internal calculations remain stable. Emotion introduces entropy: Calm results in cohesion, while strong emotion leads to fragmentation or permanent degradation.",
+                psych: "They experience emotions as system failures. Joy is a rounding error, anger is corruption, and fear is catastrophic instability. High-ranking Aetherials possess emotional near-nullity, prioritizing logic over all else.",
+                soc: "A strict axiomatic hierarchy. Rank is determined by predictive accuracy. Debate is settled through probabilistic dominance, and lying is non-existent as it introduces logical inconsistencies.",
+                conflict: "They prefer pre-emptive neutralization and environmental manipulation through reality constraint fields. They avoid prolonged combat as it generates unstable emotional spikes.",
+                human: "To an Aetherial, a human is a logical paradox. High emotion enhances human adaptability rather than destabilizing them. Humans behave like unbounded variables, collapsing carefully predicted futures."
+            },
+            dravakin: {
+                name: "Dravakin",
+                subtitle: "The Conflict-Encoded",
+                icon: "🐲",
+                trait: "Draconic Might",
+                ability: "Flame Breath",
+                bio: "Dravakin possess conflict-encoded cells. Each battle rewrites their physiology: bones thicken where struck, heat resistance increases after fire exposure, and reflexes sharpen. Scars are considered biological upgrades.",
+                psych: "They require conflict to mature. A Dravakin who has never fought is considered incomplete or immature. Peace stagnates their growth.",
+                soc: "Clan-based meritocracy. Lineage grants potential, but only battle grants legitimacy. Elders are walking arsenals of experience, often appearing monstrous due to centuries of accumulation.",
+                conflict: "They fight directly and honorably. Retreat is only allowed if survival enables future combat. Killing without challenge is disgraceful.",
+                human: "Humans learn without genetic encoding and adapt mentally rather than biologically. This suggests power exists outside the Dravakin belief system, leading some to hunt humans while others seek to study them."
+            },
+            sylvae: {
+                name: "Sylvae",
+                subtitle: "Distributed Organisms",
+                icon: "🦋",
+                trait: "Ethereal Form",
+                ability: "Phase Shift",
+                bio: "Nodes in a planetary bio-network. Roots beneath forests connect them; memories are transmitted chemically, and pain echoes species-wide. To kill one is to make the entire forest scream.",
+                psych: "They lack a sense of 'self', thinking instead in continuity. Preservation of the whole dominates individual desires. Fast decisions cause them physical pain.",
+                soc: "Decisions take years, wars take centuries, and revenge is eternal. Once a path is chosen, it is irreversible.",
+                conflict: "Environmental warfare and attrition. They reclaim territory rather than seeking annihilation. They do not pursue; they wait.",
+                human: "Humans act without consensus and make irreversible choices instantly. A single human decision can cause more disruption than a century of Sylvae deliberation, making them ecologically catastrophic."
+            },
+            noctyrr: {
+                name: "Noctyrr",
+                subtitle: "Intent Predators",
+                icon: "🌙",
+                trait: "Umbral Step",
+                ability: "Eclipse Veil",
+                bio: "Noctyrr exist partially in the intent-layer of reality. They metabolize fear, anticipation, and hesitation. While they prefer physical bodies for hunting, it is technically optional.",
+                psych: "They do not understand courage, only hesitation. A being that fears but acts anyway is a fundamental confusion to their senses.",
+                soc: "Loose dominance hierarchies where the strongest presence rules. Weak individuals are consumed or exiled. Their mythology centers on apex prey.",
+                conflict: "Psychological warfare, isolation, and prolonged stalking. They prefer prey that breaks mentally before the kill.",
+                human: "Humans experience fear fully yet still advance and choose violence. This creates emotional energy without paralysis, starving the Noctyrr while empowering the human. Some hunt humans obsessively to solve this anomaly."
+            },
+            machyrix: {
+                name: "Machyrix",
+                subtitle: "Modular Survivors",
+                icon: "⚙️",
+                trait: "Logical Overdrive",
+                ability: "Neural Interface",
+                bio: "Created by a lost civilization to perfect survival. They feature modular bodies with organic cores hosting cognition. Components can be swapped and upgraded at will.",
+                psych: "They can simulate emotions but cannot change them. Every Machyrix has a fixed emotional range set at the moment of their creation.",
+                soc: "Extreme efficiency. No art, redundancy, or excess reproduction. Individuals are recycled the moment they become functionally obsolete.",
+                conflict: "Surgical, resource-denial based combat with zero wasted motion.",
+                human: "Humans are inefficient and logically inconsistent, yet they outlast optimized systems. This implies a non-quantifiable drive the Machyrix cannot model, sparking a fear of obsolescence."
+            },
+            virell: {
+                name: "Virell",
+                subtitle: "Symbiotic Bond",
+                icon: "🌿",
+                trait: "Verdant Heart",
+                ability: "Root Bind",
+                bio: "Virell are incomplete organisms consisting of a sentient parasite and a host species body. Neither can survive alone.",
+                psych: "Identity is shared. Conflict between host and parasite causes madness or death. Harmony between the two is the source of their power.",
+                soc: "Built around bond compatibility. Successful pairings are revered, while failed bonds are destroyed. Love is literal survival to them.",
+                conflict: "Adaptive combat styles and rapid mutation during battle. They utilize forced bonding as a form of psychological warfare.",
+                human: "Humans instinctively reject loss of bodily autonomy. This makes them dangerous to attempt assimilation on; failed bonding usually results in the death of both entities."
+            },
+            astryx: {
+                name: "Astryx",
+                subtitle: "Temporal Observers",
+                icon: "✨",
+                trait: "Luminous Essence",
+                ability: "Stellar Forge",
+                bio: "Astryx do not experience time sequentially. They perceive probable futures and past outcomes simultaneously, seeing the present as a convergence point.",
+                psych: "They are detached due to inevitability rather than arrogance. They already know the choices they will make.",
+                soc: "An archival culture where every event is recorded and deviations monitored. They intervene only when causality itself begins to fracture.",
+                conflict: "Minimal engagement involving temporal displacement or selective erasure of threats from the timeline.",
+                human: "Humans create unrecorded futures. When a human acts, Astryx records contradict themselves, implying humans exist outside deterministic spacetime."
+            }
+        };
+
+        function selectRace(id) {
+            document.querySelectorAll('.mystic-card').forEach(card => card.classList.remove('active'));
+            document.getElementById('btn-' + id).classList.add('active');
+
+            const data = raceData[id];
+            document.getElementById('placeholder-content').classList.add('hidden');
+            const content = document.getElementById('race-content');
+            content.classList.remove('hidden');
+
+            document.getElementById('display-icon').innerText = data.icon;
+            document.getElementById('display-name').innerText = data.name;
+            document.getElementById('display-subtitle').innerText = data.subtitle;
+            document.getElementById('display-trait').innerText = data.trait;
+            document.getElementById('display-ability').innerText = data.ability;
+            
+            document.getElementById('lore-bio').innerText = data.bio;
+            document.getElementById('lore-psych').innerText = data.psych;
+            document.getElementById('lore-soc').innerText = data.soc;
+            document.getElementById('lore-conflict').innerText = data.conflict;
+            document.getElementById('lore-human').innerText = data.human;
+
+            content.style.animation = 'none';
+            content.offsetHeight; 
+            content.style.animation = 'fadeIn 0.6s ease-out forwards';
+        }
+
+        const particleContainer = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.width = p.style.height = (Math.random() * 2 + 1) + 'px';
+            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particleContainer.appendChild(p);
+        }
+    </script>
+
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
