@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Factions of Aetherfall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --corp-gold: #fbbf24;
+            --deep-void: #020617;
+            --gold-glow: rgba(251, 191, 36, 0.2);
+        }
+
+        body {
+            background: radial-gradient(circle at center, #111827 0%, #020617 100%);
+            color: #f8fafc;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+        }
+
+        .corp-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(251, 191, 36, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .corp-card:hover {
+            border-color: var(--corp-gold);
+            box-shadow: 0 0 15px var(--gold-glow);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .corp-card.active {
+            border-color: var(--corp-gold);
+            box-shadow: 0 0 25px var(--gold-glow);
+            background: rgba(251, 191, 36, 0.05);
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(2, 6, 23, 0.5);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--corp-gold);
+        }
+
+        .gold-text {
+            text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+        }
+
+        .status-badge {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid var(--corp-gold);
+            color: var(--corp-gold);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .section-header {
+            color: var(--corp-gold);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, rgba(251, 191, 36, 0.3), transparent);
+        }
+
+        .lore-block {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(251, 191, 36, 0.05);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-amber-400 gold-text mb-2 tracking-widest uppercase">The Consortiums</h1>
+            <p class="text-amber-200/40 uppercase tracking-[0.3em] text-xs font-bold">Inter-species Governance & Economic Engines</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Company Selection List -->
+            <div class="lg:col-span-4 space-y-3 max-h-[75vh] overflow-y-auto pr-2 custom-scroll">
+                <button onclick="selectCorp('guild')" id="btn-guild" class="corp-card w-full p-4 rounded-lg flex items-center gap-4 group text-left">
+                    <span class="text-2xl">⚔️</span>
+                    <div>
+                        <h3 class="text-md font-bold text-slate-100 group-hover:text-amber-400">Adventurer Guild</h3>
+                        <p class="text-[10px] text-amber-500/50 uppercase">The Unified Network</p>
+                    </div>
+                </button>
+
+                <button onclick="selectCorp('aztech')" id="btn-aztech" class="corp-card w-full p-4 rounded-lg flex items-center gap-4 group text-left">
+                    <span class="text-2xl">💰</span>
+                    <div>
+                        <h3 class="text-md font-bold text-slate-100 group-hover:text-amber-400">Aztech Merchantry</h3>
+                        <p class="text-[10px] text-amber-500/50 uppercase">Anomaly Commodification</p>
+                    </div>
+                </button>
+
+                <button onclick="selectCorp('gloam')" id="btn-gloam" class="corp-card w-full p-4 rounded-lg flex items-center gap-4 group text-left">
+                    <span class="text-2xl">🌑</span>
+                    <div>
+                        <h3 class="text-md font-bold text-slate-100 group-hover:text-amber-400">The Gloam Exchange</h3>
+                        <p class="text-[10px] text-amber-500/50 uppercase">Secrecy & Leverage</p>
+                    </div>
+                </button>
+
+                <button onclick="selectCorp('obsidian')" id="btn-obsidian" class="corp-card w-full p-4 rounded-lg flex items-center gap-4 group text-left">
+                    <span class="text-2xl">🏺</span>
+                    <div>
+                        <h3 class="text-md font-bold text-slate-100 group-hover:text-amber-400">Obsidian Spire</h3>
+                        <p class="text-[10px] text-amber-500/50 uppercase">Singular Auctions</p>
+                    </div>
+                </button>
+
+                <button onclick="selectCorp('meridian')" id="btn-meridian" class="corp-card w-full p-4 rounded-lg flex items-center gap-4 group text-left">
+                    <span class="text-2xl">🏦</span>
+                    <div>
+                        <h3 class="text-md font-bold text-slate-100 group-hover:text-amber-400">Meridian Vault</h3>
+                        <p class="text-[10px] text-amber-500/50 uppercase">Debt Binding</p>
+                    </div>
+                </button>
+
+                <button onclick="selectCorp('concord')" id="btn-concord" class="corp-card w-full p-4 rounded-lg flex items-center gap-4 group text-left">
+                    <span class="text-2xl">⚖️</span>
+                    <div>
+                        <h3 class="text-md font-bold text-slate-100 group-hover:text-amber-400">Concord of Continuance</h3>
+                        <p class="text-[10px] text-amber-500/50 uppercase">Causality Management</p>
+                    </div>
+                </button>
+
+                <button onclick="selectCorp('null')" id="btn-null" class="corp-card w-full p-4 rounded-lg flex items-center gap-4 group text-left">
+                    <span class="text-2xl">🚫</span>
+                    <div>
+                        <h3 class="text-md font-bold text-slate-100 group-hover:text-amber-400">Null Accord Remnants</h3>
+                        <p class="text-[10px] text-amber-500/50 uppercase">Optimization Doctrine</p>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Details Display -->
+            <div class="lg:col-span-8">
+                <div id="details-panel" class="corp-card h-[75vh] p-1 rounded-xl flex flex-col overflow-hidden">
+                    <div id="placeholder" class="m-auto text-center opacity-30">
+                        <span class="text-6xl block mb-4">🏢</span>
+                        <h2 class="text-xl uppercase tracking-widest">Select an entity to review dossiers</h2>
+                    </div>
+
+                    <div id="content" class="hidden flex flex-col h-full">
+                        <!-- Sticky Header -->
+                        <div class="p-8 pb-4">
+                            <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                                <div>
+                                    <h2 id="corp-name" class="text-4xl font-bold text-amber-400 glow-text uppercase tracking-widest"></h2>
+                                    <p id="corp-tagline" class="text-amber-200/50 text-sm italic"></p>
+                                </div>
+                                <div id="authority-box" class="flex flex-col items-end">
+                                    <span class="text-[10px] text-amber-500/50 uppercase font-bold tracking-widest mb-1">Authority Level</span>
+                                    <span id="corp-authority" class="status-badge"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scrollable Content -->
+                        <div class="flex-1 overflow-y-auto px-8 pb-8 custom-scroll">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div class="lore-block border-l-2 border-l-amber-500/50">
+                                    <div class="section-header">Primary Function</div>
+                                    <p id="corp-function" class="text-slate-300 text-sm leading-relaxed"></p>
+                                </div>
+                                <div class="lore-block border-l-2 border-l-amber-500/50">
+                                    <div class="section-header">Power Type</div>
+                                    <p id="corp-power" class="text-slate-300 text-sm leading-relaxed"></p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div>
+                                    <div class="section-header">Dossier Notes & Operations</div>
+                                    <div id="corp-notes" class="text-slate-300 text-sm leading-relaxed space-y-3"></div>
+                                </div>
+                                
+                                <div class="p-6 rounded-lg bg-amber-400/5 border border-amber-400/20">
+                                    <div class="section-header" style="color: #fcd34d">Human Status / Classification</div>
+                                    <p id="corp-human" class="text-amber-100/80 text-sm leading-relaxed italic"></p>
+                                </div>
+
+                                <div id="truth-section" class="hidden">
+                                    <div class="section-header" style="color: #f87171">Declassified Truth</div>
+                                    <p id="corp-truth" class="text-red-300/80 text-sm leading-relaxed font-bold border-l-2 border-red-500 pl-4"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const corpData = {
+            guild: {
+                name: "Adventurer Guild",
+                tagline: "The Unified Network",
+                authority: "None / Informational",
+                function: "A decentralized infrastructure for quest registration, request verification, and payment escrow. It operates as a neutral routing system for all inter-racial ventures.",
+                power: "Pure information routing and risk management. The Guild owns no land, but controls the flow of information that drives all planetary progress.",
+                notes: "Unlike traditional guilds, there is no central leadership or enforcement wing. It functions as a public utility. 'Clearance levels' are not earned through rank but through specific storyline synchronizations with planetary events. It is the only place where a Dravakin and a Noctyrr can stand in the same room without immediate bloodbath, protected only by the shared need for the system's survival.",
+                human: "Humans are listed as 'Classification Pending'. While humans are allowed to register for quests, they are currently ineligible for standard insurance or backup recovery protocols, making their survival entirely their own responsibility.",
+                truth: "The Guild survives because every major power—Aetherial, Sylvae, or Dravakin—needs a neutral, deniable place to offload risk. By outsourcing dangerous relics and causality-bending tasks to independent 'contractors', they avoid direct racial conflict."
+            },
+            aztech: {
+                name: "Aztech Merchantry",
+                tagline: "Commercial Anomaly Logistics",
+                authority: "Economic Dominance",
+                function: "Inter-racial trade conglomerates, relic logistics, and the aggressive commodification of biological, temporal, and spiritual anomalies.",
+                power: "Vast capital reserves and absolute control over inter-racial supply chains and trade routes.",
+                notes: "They specialize in the extraction and refinement of Aether shards, the harvesting of Sylvae biomass for pharmaceuticals, and the salvaging of Machyrix clockwork components. Their fleets move temporal artifacts between high-security zones. They view the entire planet as a collection of assets to be moved, refined, and sold to the highest bidder, regardless of racial ethics.",
+                human: "Classified as an 'Unrepeatable Asset'. Humans are seen as high-value contractors whose influence can be leveraged but whose biology cannot be owned or replicated. They are treated as volatile luxury consultants.",
+                truth: "Aztech has successfully lobbied the Concord to keep certain high-risk zones 'unregulated' simply to ensure they have exclusive rights to the rare resources found within causality fractures."
+            },
+            gloam: {
+                name: "The Gloam Exchange",
+                tagline: "The Hidden Market",
+                authority: "Informal / Fear-Based",
+                function: "The trade of illegal, erased, or non-recordable goods. If it doesn't exist in a ledger, it is traded here.",
+                power: "Strategic secrecy, blackmail leverage, and the ability to operate in the 'blind spots' of the Concord.",
+                notes: "The Exchange trades in items that other consortiums fear: unregistered souls, forbidden blood-contracts, and items deemed 'heretical' by the Concord. There is no central office; the market moves every time a causality wave hits. Brokers are known only by symbols—a cracked gear, a black butterfly—and deals are sealed by magical consequence rather than written law.",
+                human: "Humans are the Exchange's most fascinating customers. Because humans exist partially outside deterministic time, they can access markets that technically 'don't exist' yet, or have already been erased from history.",
+                truth: "Most high-level Aztech executives are silent partners in the Gloam Exchange, using it to move assets that are too dangerous to show on their official balance sheets."
+            },
+            obsidian: {
+                name: "Obsidian Spire Auctions",
+                tagline: "Singular Asset Liquidators",
+                authority: "Absolute (during auction)",
+                function: "Conducting high-tier, sealed-bid auctions for singular items that could potentially alter the course of a race's history.",
+                power: "Gatekept exclusivity and engineered scarcity. They have the power to decide who even knows an item exists.",
+                notes: "They auction one-of-one relics, Astryx time-fragments, and even consciousness seeds from the Sylvae heart-forests. Bidding is not always in currency; the Spire often demands payment in favors, specific memories, or the surrender of a bidder's possible future outcomes. Their word inside the Spire is law; any breach of decorum leads to permanent erasure from the guest list—and sometimes reality.",
+                human: "Humans are the Spire's greatest wildcard. They frequently bid without collateral, offering 'impossible choices' or 'unpredictable aid' that terrifies traditional bidders who value fixed, logical outcomes.",
+                truth: "The Spire itself is a temporal anomaly. The auctions that take place inside happen 'outside' of time, ensuring that the winners cannot be intercepted by the Concord until after the deal is already complete."
+            },
+            meridian: {
+                name: "Meridian Vault Consortium",
+                tagline: "The Debt Binders",
+                authority: "Contractual Supremacy",
+                function: "Inter-species banking, global currency stabilization, and the enforcement of soul-bound escrow and debt binding.",
+                power: "The power of obligation. A debt to Meridian is a debt written into the borrower's essence.",
+                notes: "They do not store physical gold or digital currency; they store promises. Their vaults are filled with signed contracts that, if broken, cause the debtor's logic to collapse (Aetherial) or their roots to wither (Sylvae). They stabilize inter-race trade by acting as the ultimate guarantor, ensuring that even if two races go to war, their financial obligations to one another remain intact.",
+                human: "Classified as 'Non-Indexable Entities'. Because humans are logically inconsistent, Meridian cannot predict their default rate. Consequently, human accounts cannot accrue interest, cannot be frozen, and cannot be audited by any external authority.",
+                truth: "Meridian doesn't care about profit. They are interested in 'Total Global Obligation'—a state where every living being owes them something, effectively giving them a vote in every soul's future."
+            },
+            concord: {
+                name: "Concord of Continuance",
+                tagline: "Causality Management",
+                authority: "Theoretical Absolute",
+                function: "Maintenance of reality stability, enforcement of inter-racial laws, and the active pruning of causality-threatening timelines.",
+                power: "The legal right to use temporal and physical force to maintain the status quo of the current timeline.",
+                notes: "Think of them as the police of existence. They monitor the Aetherials for fragmentation and the Sylvae for over-expansion. Their reach is vast but hampered by the sheer complexity of inter-species politics. They are the only ones with the authority to 'reset' a zone if it becomes too corrupted by temporal anomalies, though they rarely do so because of the political fallout.",
+                human: "Classified as a 'Causality Hazard'. Humans are officially outside the Concord's standard jurisdiction because they do not obey the laws of deterministic causality. They are viewed as a virus that the Concord is trying to 'contain' rather than govern.",
+                truth: "The Concord's 'absolute' power is a fragile lie. They are constantly making deals with Aztech and the Meridian Vault to keep the world running because they lack the raw resources to enforce their own laws."
+            },
+            null: {
+                name: "Null Accord Remnants",
+                tagline: "Optimization Doctrine",
+                authority: "Hidden / Systemic",
+                function: "Underground research and cult-like adherence to the 'Optimization Doctrine'—the belief that all life must be perfected into a single, efficient system.",
+                power: "Deep systemic influence through Machyrix technology and architectural infiltration.",
+                notes: "The Machyrix were created by the civilization that preceded the Null Accord. Now, the Remnants seek to find the 'missing variables' that caused their creators to fail. They operate through shadow-lobbying and the subversion of existing technologies, slowly turning every consortium toward their vision of a world without redundancy, art, or waste.",
+                human: "Humans are 'The Final Uncontrolled Variable'. To the Null Accord, humans are proof that the universe still contains 'noise'. They seek to either optimize the human experience into a predictable model or delete it entirely.",
+                truth: "The Null Accord Remnants are the reason humans were brought to Aetherfall in the first place; they are a stress-test meant to prove the Doctrine's ultimate superiority—or find the secret to the Machyrix's missing soul."
+            }
+        };
+
+        function selectCorp(id) {
+            document.querySelectorAll('.corp-card').forEach(c => c.classList.remove('active'));
+            document.getElementById('btn-' + id).classList.add('active');
+
+            const data = corpData[id];
+            document.getElementById('placeholder').classList.add('hidden');
+            const content = document.getElementById('content');
+            content.classList.remove('hidden');
+
+            document.getElementById('corp-name').innerText = data.name;
+            document.getElementById('corp-tagline').innerText = data.tagline;
+            document.getElementById('corp-authority').innerText = data.authority;
+            document.getElementById('corp-function').innerText = data.function;
+            document.getElementById('corp-power').innerText = data.power;
+            
+            // Format notes into paragraphs
+            const notesContainer = document.getElementById('corp-notes');
+            notesContainer.innerHTML = data.notes.split('. ').map(s => `<p>${s}.</p>`).join('');
+
+            document.getElementById('corp-human').innerText = data.human;
+
+            const truthSec = document.getElementById('truth-section');
+            if (data.truth) {
+                truthSec.classList.remove('hidden');
+                document.getElementById('corp-truth').innerText = data.truth;
+            } else {
+                truthSec.classList.add('hidden');
+            }
+            
+            // Reset scroll position on change
+            document.querySelector('.flex-1.overflow-y-auto').scrollTop = 0;
+        }
+    </script>
+</body>
+</html>
